@@ -1,20 +1,77 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav>
+  <ul>
+    <li>
+      <img (click)="logoClick(true)" src="https://www.mysmartgroup.co.uk/wp-content/uploads/2017/12/1-2-dell-logo-3d-white-png.png"/>
+    </li>
+    <li>
+      <span (click)="cartClick(true)" id="top-nav-font">My Cart</span>
+    </li>
+  </ul>
+</nav>
 
+<div id="container-left">
+  <div *ngIf="logoSelected !== false; else welcomeMsg">
+    <ul>
+      <li class="itemattribute" *ngFor="let productList of productLists;let i = index">
+        <ul>
+          <li>
+            <div img src ='productList.image'></div>
+          </li>
+          <li class="display-product-list">
+            <input type="radio" name="productList.name" value="productList.name" (click)="getValue(i)">Product Name : {{productList.name}}
+          </li>
+          <li class="display-product-list">
+            <span>Price : RM{{productList.price}}</span>
+          </li>
+          <li class="display-product-list">
+            <span>Current Quantity : {{productList.selectedquantitys}}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <form action="/action_page.php" *ngIf="selectedListIndex !== null">
+      Added Quantity:
+      <input type="number" name="quantity" min="0" max="100" step="1" value="0">
+      <button type="button" let number = "abc" (click)="checkout(number)">Check Out</button>
+    </form> -->
+    <div class="input-group" *ngIf="productSelected !== false">
+      <input type="button" value="-" (click)="minus()">
+      <span>{{selectedquantity}}</span>
+      <input type="button" value="+" (click)="plus()">
+      <div *ngIf="selectedquantity !== 0">
+        <input type="button" value="Add to Cart" (click)="checkout()">
+      </div>
+    </div>
+  </div>
+  <ng-template #welcomeMsg>
+    <span id="content-font"> Welcome to Dell</span>
+  </ng-template>
+</div>
+
+<div id="container-right">
+  <!-- <div *ngIf="cartLists.length !== 0; else cartMsg"> -->
+  <div *ngIf="cartSelected !== false && cartLists.length > 0; else cartMsg">
+    <ul>
+      <li class="display-product-list" *ngFor="let cartList of cartLists;let i = index">
+        <ul>
+          <li class="display-product-list">
+            <input type="radio" name="cartList.name" value="cartList.name" (click)="removeValue(i)">Product Name : {{cartList.name}}
+          </li>
+          <li class="display-product-list">
+            <span>Price : RM{{cartList.price}}</span>
+          </li>
+          <li class="display-product-list">
+            <span>Quantity : {{cartList.selectedquantitys}}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <span>Final Amount : {{totalAmount}}</span>
+    <div *ngIf="cartitemSelected !== false">
+      <input type="button" value="Clear My Cart" (click)="clearCart()">
+    </div>
+  </div>
+  <ng-template #cartMsg>
+  <span id="cart-font">Empty Cart</span>
+  </ng-template>
+</div>
